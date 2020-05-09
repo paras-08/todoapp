@@ -24,13 +24,13 @@ let removeTodo = function (id) {
     }
 }
 let renderTodo = function () {
-    let todoLeft=0;
+    let todoLeft = 0;
     let toDolist = document.querySelector('#mainToDoList')
     while (toDolist.firstChild) {
         toDolist.removeChild(toDolist.lastChild);
     }
     todos.forEach((todo, index) => {
-        if(todo.completed===false){
+        if (todo.completed === false) {
             todoLeft++;
         }
         const closeButton = document.createElement('button')
@@ -69,10 +69,16 @@ let renderTodo = function () {
         appendTodo.appendChild(closeButton)
         toDolist.appendChild(appendTodo)
     })
-    document.querySelector('#toDoLeft').textContent=`${todoLeft} ToDo left`
+    document.querySelector('#toDoLeft').textContent = `${todoLeft} ToDo left`
+    if(todoLeft===0){
+        document.querySelector('#toggleTodo').checked=true;
+    }
+    else{
+        document.querySelector('#toggleTodo').checked=false;
+    }
 }
 let renderActive = function () {
-    let todoLeft=0
+    let todoLeft = 0
     let toDolist = document.querySelector('#mainToDoList')
     while (toDolist.firstChild) {
         toDolist.removeChild(toDolist.lastChild);
@@ -117,10 +123,16 @@ let renderActive = function () {
             toDolist.appendChild(appendTodo)
         }
     })
-    document.querySelector('#toDoLeft').textContent=`${todoLeft} ToDo left`
+    document.querySelector('#toDoLeft').textContent = `${todoLeft} ToDo left`
+    if(todoLeft===0){
+        document.querySelector('#toggleTodo').checked=true;
+    }
+    else{
+        document.querySelector('#toggleTodo').checked=false;
+    }
 }
 let renderCompleted = function () {
-    let todoLeft=0
+    let todoLeft = 0
     let toDolist = document.querySelector('#mainToDoList')
     while (toDolist.firstChild) {
         toDolist.removeChild(toDolist.lastChild);
@@ -163,35 +175,41 @@ let renderCompleted = function () {
             appendTodo.appendChild(closeButton)
             toDolist.appendChild(appendTodo)
         }
-        else{
+        else {
             todoLeft++
         }
     })
-    document.querySelector('#toDoLeft').textContent=`${todoLeft} ToDo left`
+    document.querySelector('#toDoLeft').textContent = `${todoLeft} ToDo left`
+    if(todoLeft===0){
+        document.querySelector('#toggleTodo').checked=true;
+    }
+    else{
+        document.querySelector('#toggleTodo').checked=false;
+    }
 }
 document.querySelector('#newToDo').addEventListener('submit', function (e) {
     e.preventDefault()
-    if(e.target.elements.textInput.value.length>0){
-    let todoObject = {
-        id: Math.floor(Math.random() * 100000),
-        text: e.target.elements.textInput.value,
-        completed: false
+    if (e.target.elements.textInput.value.length > 0) {
+        let todoObject = {
+            id: Math.floor(Math.random() * 100000),
+            text: e.target.elements.textInput.value,
+            completed: false
+        }
+        todos.push(todoObject)
+        e.target.elements.textInput.value = ''
+        // localStorage.removeItem('todo')
+        // localStorage.setItem('todo',todos)
+        localStorage.setItem('todos', JSON.stringify(todos))
+        if (idRender === "all") {
+            renderTodo()
+        }
+        else if (idRender === "active") {
+            renderActive()
+        }
+        else {
+            renderCompleted()
+        }
     }
-    todos.push(todoObject)
-    e.target.elements.textInput.value = ''
-    // localStorage.removeItem('todo')
-    // localStorage.setItem('todo',todos)
-    localStorage.setItem('todos', JSON.stringify(todos))
-    if (idRender === "all") {
-        renderTodo()
-    }
-    else if (idRender === "active") {
-        renderActive()
-    }
-    else {
-        renderCompleted()
-    }
-}
 })
 document.querySelector('#activeButton').addEventListener('click', function (e) {
     idRender = "active"
@@ -205,7 +223,7 @@ document.querySelector('#completedButton').addEventListener('click', function (e
     idRender = "completed"
     renderCompleted()
 })
-document.querySelector('#clearCompleted').addEventListener('click',function(e){
+document.querySelector('#clearCompleted').addEventListener('click', function (e) {
     todos = todos.filter(function (todo) {
         return todo.completed === false
     })
@@ -221,3 +239,27 @@ document.querySelector('#clearCompleted').addEventListener('click',function(e){
     }
 })
 renderTodo()
+document.querySelector('#toggleTodo').addEventListener('change',function(e){
+    let checkedValue = document.querySelector('#toggleTodo').checked;
+    console.log(checkedValue)
+    if(checkedValue===false){
+        todos.forEach((todo,index)=>{
+            todo.completed=false;
+        })
+    }
+    else{
+        todos.forEach((todo,index)=>{
+            todo.completed=true;
+        })
+    }
+    if (idRender === "all") {
+        renderTodo()
+    }
+    else if (idRender === "active") {
+        renderActive()
+    }
+    else {
+        renderCompleted()
+    }
+})
+
