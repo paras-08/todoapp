@@ -2,20 +2,25 @@
 <html>
 
 <head>
+    <title>
+        To-do-App
+    </title>
+    <link href="/styles.css" rel="stylesheet">
 </head>
 
 <body>
-    <h1>todos</h1>
-    <div id="newToDo">
-        <form>
+    <h1 id="header">todos</h1>
+    <div id="newToDo" class="input">
+        <form id="takeInput">
+            
             <input id="toggleTodo" type="checkbox">
-            <input type="text", placeholder="What needs to be done?", name="textInput">
+            <input class="textinput" type="text", placeholder="What needs to be done?", name="textInput">
         </form>
     </div>
-    <div id="mainToDoList">
+    <div id="mainToDoList" class="mainList">
 
     </div>
-    <div id="statusOfToDo">
+    <div class="statusOfToDo">
         <span id="toDoLeft">
             0 ToDo Left
         </span>
