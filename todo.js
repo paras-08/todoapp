@@ -195,7 +195,12 @@ document.querySelector('#newToDo').addEventListener('submit', function (e) {
             text: e.target.elements.textInput.value,
             completed: false
         }
+        if(todos===null){
+            todos=[todoObject]
+        }
+        else{
         todos.push(todoObject)
+        }
         e.target.elements.textInput.value = ''
         // localStorage.removeItem('todo')
         // localStorage.setItem('todo',todos)
@@ -238,7 +243,9 @@ document.querySelector('#clearCompleted').addEventListener('click', function (e)
         renderCompleted()
     }
 })
+if(todos!==null){
 renderTodo()
+}
 document.querySelector('#toggleTodo').addEventListener('change',function(e){
     let checkedValue = document.querySelector('#toggleTodo').checked;
     console.log(checkedValue)
