@@ -7,33 +7,9 @@ catch{
     console.log("problem loading database")
 }
 let idRender = "all"
-let removeTodo = function (id) {
-
-    todos = todos.filter(function (todo) {
-        return todo.id !== id
-    })
-    localStorage.setItem('todos', JSON.stringify(todos))
-    if (idRender === "all") {
-        renderTodo()
-    }
-    else if (idRender === "active") {
-        renderActive()
-    }
-    else {
-        renderCompleted()
-    }
-}
-let renderTodo = function () {
-    let todoLeft = 0;
-    let toDolist = document.querySelector('#mainToDoList')
-    while (toDolist.firstChild) {
-        toDolist.removeChild(toDolist.lastChild);
-    }
-    todos.forEach((todo, index) => {
-        if (todo.completed === false) {
-            todoLeft++;
-        }
-        const closeButton = document.createElement('button')
+let displayTodos=function(toDolist,todo){
+    
+    const closeButton = document.createElement('button')
         closeButton.textContent = 'x'
         closeButton.addEventListener('click', function (e) {
             console.log(todo.id)
@@ -63,11 +39,45 @@ let renderTodo = function () {
                 renderCompleted()
             }
         })
+        const todoEl = document.createElement('label')
         const appendTodo = document.createElement('div')
+        todoEl.classList.add('list-item')
+        appendTodo.classList.add('list-item__container')
         appendTodo.appendChild(checkbox)
         appendTodo.appendChild(text)
-        appendTodo.appendChild(closeButton)
-        toDolist.appendChild(appendTodo)
+        // appendTodo.appendChild(closeButton)
+        todoEl.appendChild(appendTodo)
+        closeButton.classList.add('button', 'button--text')
+        todoEl.appendChild(closeButton)
+        toDolist.appendChild(todoEl)
+}
+let removeTodo = function (id) {
+
+    todos = todos.filter(function (todo) {
+        return todo.id !== id
+    })
+    localStorage.setItem('todos', JSON.stringify(todos))
+    if (idRender === "all") {
+        renderTodo()
+    }
+    else if (idRender === "active") {
+        renderActive()
+    }
+    else {
+        renderCompleted()
+    }
+}
+let renderTodo = function () {
+    let todoLeft = 0;
+    let toDolist = document.querySelector('#mainToDoList')
+    while (toDolist.firstChild) {
+        toDolist.removeChild(toDolist.lastChild);
+    }
+    todos.forEach((todo, index) => {
+        if (todo.completed === false) {
+            todoLeft++;
+        }
+        displayTodos(toDolist,todo)
     })
     document.querySelector('#toDoLeft').textContent = `${todoLeft} ToDo left`
     if(todoLeft===0){
@@ -86,41 +96,7 @@ let renderActive = function () {
     todos.forEach((todo, index) => {
         if (todo.completed === false) {
             todoLeft++
-            const closeButton = document.createElement('button')
-            closeButton.textContent = 'x'
-            closeButton.addEventListener('click', function (e) {
-                console.log(todo.id)
-                removeTodo(todo.id)
-            })
-            const text = document.createElement('span')
-            text.textContent = todo.text
-            const checkbox = document.createElement('input')
-            checkbox.type = "checkbox"
-            checkbox.checked = todo.completed
-            checkbox.addEventListener('change', function (e) {
-                // todo.completed=!todo.completed
-                // renderTodo()
-                // console.log(todo.completed)
-                todo.completed = !todo.completed
-                console.log(todo.completed)
-                // localStorage.removeItem('todo')
-                // localStorage.setItem('todo',todos)
-                localStorage.setItem('todos', JSON.stringify(todos))
-                if (idRender === "all") {
-                    renderTodo()
-                }
-                else if (idRender === "active") {
-                    renderActive()
-                }
-                else {
-                    renderCompleted()
-                }
-            })
-            const appendTodo = document.createElement('div')
-            appendTodo.appendChild(checkbox)
-            appendTodo.appendChild(text)
-            appendTodo.appendChild(closeButton)
-            toDolist.appendChild(appendTodo)
+            displayTodos(toDolist,todo)
         }
     })
     document.querySelector('#toDoLeft').textContent = `${todoLeft} ToDo left`
@@ -139,41 +115,7 @@ let renderCompleted = function () {
     }
     todos.forEach((todo, index) => {
         if (todo.completed === true) {
-            const closeButton = document.createElement('button')
-            closeButton.textContent = 'x'
-            closeButton.addEventListener('click', function (e) {
-                console.log(todo.id)
-                removeTodo(todo.id)
-            })
-            const text = document.createElement('span')
-            text.textContent = todo.text
-            const checkbox = document.createElement('input')
-            checkbox.type = "checkbox"
-            checkbox.checked = todo.completed
-            checkbox.addEventListener('change', function (e) {
-                // todo.completed=!todo.completed
-                // renderTodo()
-                // console.log(todo.completed)
-                todo.completed = !todo.completed
-                console.log(todo.completed)
-                // localStorage.removeItem('todo')
-                // localStorage.setItem('todo',todos)
-                localStorage.setItem('todos', JSON.stringify(todos))
-                if (idRender === "all") {
-                    renderTodo()
-                }
-                else if (idRender === "active") {
-                    renderActive()
-                }
-                else {
-                    renderCompleted()
-                }
-            })
-            const appendTodo = document.createElement('div')
-            appendTodo.appendChild(checkbox)
-            appendTodo.appendChild(text)
-            appendTodo.appendChild(closeButton)
-            toDolist.appendChild(appendTodo)
+            displayTodos(toDolist,todo)
         }
         else {
             todoLeft++

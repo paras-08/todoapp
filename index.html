@@ -11,16 +11,17 @@
 <body>
     <h1 id="header">todos</h1>
     <div id="newToDo" class="input">
-        <form id="takeInput">
-            
+        <form id="takeInput" class="list-item">
+            <div class="list-item__container">
             <input id="toggleTodo" type="checkbox">
             <input class="textinput" type="text", placeholder="What needs to be done?", name="textInput">
+            </div>
         </form>
     </div>
     <div id="mainToDoList" class="mainList">
 
     </div>
-    <div class="statusOfToDo">
+    <div class="statusOfToDo" class="list-item">
         <span id="toDoLeft">
             0 ToDo Left
         </span>
